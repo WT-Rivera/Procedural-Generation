@@ -3,33 +3,33 @@ using System.Collections;
 
 namespace ProceduralToolkit.Examples.Primitives
 {
+    [System.Serializable]
 	[RequireComponent(typeof(MeshRenderer), typeof(MeshFilter))]
 	public class Streetlamps : MonoBehaviour 
 	{
 		//lamp var
-		public float lampRadius = .25f;
-		public int segments = 12;
-		public float lampHeight = 5f;
+		public float lampRadius;
+		public int segments;
+		public float lampHeight;
 
 		public GameObject road;
 
 		//lamp positions and value
-		public float lampPositionValue;
-		public Vector3 lampPosition1;
-		public Vector3 lampPosition2;
+		public float lampPositionX;
+		private Vector3 lampPosition1;
+		private Vector3 lampPosition2;
 
-		// Use this for initialization
-		void awake () 
+		void Awake () 
 		{
-			lampPosition1 = new Vector3 (0, lampPositionValue, 0);
-			lampPosition2 = new Vector3 (0, -lampPositionValue, 0);
+            // on awake, create two Vector3 values for two separate lamps
+			lampPosition1 = new Vector3 (lampPositionX, road.transform.position.y, road.transform.position.z);
+			lampPosition2 = new Vector3 (-lampPositionX, road.transform.position.y, road.transform.position.z);
 		}
 
 		void Start()
 		{
-			//create two prisms at both lampPositions
-
-
+            //create two prisms at both lampPositions and at road position
+            GetComponent<MeshFilter>().mesh = MeshE.Prism(lampRadius, segments, lampHeight);
 		}
 
 	}
